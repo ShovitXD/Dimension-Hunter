@@ -1,24 +1,40 @@
 using Photon.Pun;
-using TMPro;
 using UnityEngine;
+using Unity.Services.CloudSave;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 public class JoinRoom : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject LoadingScene;
-    [SerializeField] private TMP_InputField Name;
-    private string setName = string.Empty;
- 
-    public void UpadteText()
+    private string playerName = string.Empty;
+
+    private async void Start()
     {
-        setName = Name.text;
-        PhotonNetwork.LocalPlayer.NickName = setName;
+        await FetchPlayerName();
+    }
+
+    private async Task FetchPlayerName()
+    {
+        try
+        {
+            // Change to HashSet<string> instead of string[]
+            var savedData = await CloudSaveService.Instance.Data.LoadAsync(new HashSet<string> { "PlayerName" });
+            if (savedData.TryGetValue("PlayerName", out var nameValue))
+            {
+                playerName = nameValue.ToString();
+                PhotonNetwork.LocalPlayer.NickName = playerName;
+            }
+        }
+        catch
+        {
+            Debug.LogError("Failed to load player name from Cloud Save.");
+        }
     }
 
     public void EnterRoom()
     {
-        UpadteText();
-
-        if (!string.IsNullOrWhiteSpace(setName))
+        if (!string.IsNullOrWhiteSpace(playerName))
         {
             PhotonNetwork.AutomaticallySyncScene = true;
 

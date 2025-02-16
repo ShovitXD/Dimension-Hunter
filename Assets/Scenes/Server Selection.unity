@@ -1800,8 +1800,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serverDropdown: {fileID: 455255318}
-  joinButton: {fileID: 0}
   selectedRegion: 
+  JoinBTN: {fileID: 1837119523}
 --- !u!1 &1736535444
 GameObject:
   m_ObjectHideFlags: 0

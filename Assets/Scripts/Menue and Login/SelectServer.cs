@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class SelectServer : MonoBehaviourPunCallbacks
 {
-    public TMP_Dropdown serverDropdown; 
-    public Button joinButton;           
-    public string selectedRegion = "";
+    [SerializeField]private TMP_Dropdown serverDropdown;          
+    [SerializeField]private string selectedRegion = "";
+    [SerializeField] private Button JoinBTN;
 
     private string GetRegionFromIndex(int index)
     {
@@ -31,6 +31,7 @@ public class SelectServer : MonoBehaviourPunCallbacks
     }
     public void JoinToRegionBtn()
     {
+        JoinBTN.interactable = false;
         if (string.IsNullOrEmpty(selectedRegion)) //now selectedRegion has the value of Index ie('eu'etc)
         {
             // If "Best Server" ie. string is empty, connect to the best region automatically
@@ -49,7 +50,8 @@ public class SelectServer : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to: " + PhotonNetwork.CloudRegion);
-        PhotonNetwork.LoadLevel(1); //Switch so Main Menu after the server connects to a region
+        LoadLevel.LoadLoginScreen(); //Switch so Main Menu after the server connects to a region
+        JoinBTN.interactable = true;
     }//WARNING: Dont use Scenemanager to load level IDk if it will break anything or not.
 
 
@@ -57,5 +59,6 @@ public class SelectServer : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         Debug.LogError("Failed Connection. Reason: " + cause);
+        JoinBTN.interactable = true;
     }
 }
