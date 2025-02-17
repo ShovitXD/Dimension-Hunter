@@ -37,6 +37,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         RoomPannel.SetActive(true);
     }
+    public void DeactivateRoomPannel()
+    {
+        RoomPannel.SetActive(false);
+    }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
