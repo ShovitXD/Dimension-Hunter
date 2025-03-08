@@ -20,7 +20,7 @@ public static class StartupSceneLoader
         {
             if (EditorSceneManager.GetActiveScene().buildIndex != 0)
             {
-               EditorSceneManager.LoadScene(0);
+               //EditorSceneManager.LoadScene(0);
             }
         }
     }
